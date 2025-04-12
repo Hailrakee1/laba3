@@ -1,0 +1,30 @@
+name: Python tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Checkout репозитория
+      uses: actions/checkout@v3
+
+    - name: 🐍 Установка Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: 📦 Установка зависимостей
+      run: |
+        python -m pip install --upgrade pip
+        pip install coverage
+
+    - name: ✅ Запуск тестов с покрытием
+      run: |
+        coverage run -m unittest discover
+        coverage report -m
